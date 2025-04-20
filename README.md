@@ -8,16 +8,20 @@
 + Hard to read
 + Hard to change (even for simple changes)
 + Contains duplication
-+ Meaningless naming
++ Meaningless naming of variables
++ Global variables all over the code
 
 ## How does spaghetti code come to be?
 
++ No proper planning
 + Poor decisions
 + Quick fixes
++ Time pressure
 + Volatile project requirements
 + Lack of programming style rules
 + Developer lack of experience
-+ No team guidelines, best practices or automation.
++ No team guidelines, best practices or automation
++ No refactoring
 
 ## Why is it bad?
 
@@ -33,3 +37,19 @@
 + If you see too many bugs come back over and over
 + Onboarding of new developers is a nightmare, and you know it
 + When the SOLID principles are violated
+
+## How to fix it?
+
++ Communicate
++ Modularization
++ Documentation
++ Self-commenting code
++ Unit test
+
+## SOLID
+
++ S - Single Responsibility Principle (SRP)
++ O - Open/Closed Principle
++ L - Liskov’s Substitution Principle (LSP)
++ I - Interface Segregation Principle (ISP)
++ D - Dependency Inversion Principle (DIP)
