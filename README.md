@@ -22,6 +22,7 @@
 + Developer lack of experience
 + No team guidelines, best practices or automation
 + No refactoring
++ Focusing on 90 % testing
 
 ## Why is it bad?
 
