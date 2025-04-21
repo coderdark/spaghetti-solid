@@ -20,6 +20,16 @@ export default function App() {
         setTotal(total);
     }, [cartItems]);
 
+    function renderTotals() {
+        return (<>
+            <h1 className={'font-bold text-3xl text-amber-700'}>Totals</h1>
+            <div className={'flex gap-4 h-full justify-between'}>
+                <p className={'font-bold text-2xl'}>Total:</p>
+                <p className={'font-bold text-2xl'}>${(total / 100).toFixed(2)}</p>
+            </div>
+        </>)
+    }
+
     return <main className={'flex flex-col relative w-screen h-screen'}>
         <header>
             <h1 className={'font-bold text-6xl p-2 bg-neutral-700 text-yellow-600'}>
@@ -97,11 +107,7 @@ export default function App() {
         </section>
         <hr className={'border-2 border-neutral-700'}/>
         <section className={'flex flex-col gap-4 p-4 h-full justify-between'}>
-            <h1 className={'font-bold text-3xl text-amber-700'}>Totals</h1>
-            <div className={'flex gap-4 h-full justify-between'}>
-                <p className={'font-bold text-2xl'}>Total:</p>
-                <p className={'font-bold text-2xl'}>${(total / 100).toFixed(2)}</p>
-            </div>
+            {renderTotals()}
         </section>
         <footer
             className={'flex absolute bottom-0 w-screen h-10 gap-4 bg-neutral-700 justify-center items-center'}>
