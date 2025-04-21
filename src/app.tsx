@@ -14,10 +14,10 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        const total = cartItems.reduce(
+        const totals = cartItems.reduce(
             (acc, item) => acc + (item.price * item.quantity), 0);
 
-        setTotal(total);
+        setTotal(totals);
     }, [cartItems]);
 
     function renderTotals() {
