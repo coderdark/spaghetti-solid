@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
-import {SpaghettiPlate, SpaghettiPlateCartItem} from "./types/spaghetti-plate.ts";
+import {Plate, SpaghettiPCI} from "./types/spaghetti-plate.ts";
 
 export default function App() {
-    const [spaghettiPlates, setSpaghettiPlates] = useState<SpaghettiPlate[]>([]);
-    const [cartItems, setCartItems] = useState<SpaghettiPlateCartItem[]>([]);
+    const [food, setFood] = useState<Plate[]>([]);
+    const [cartItems, setCartItems] = useState<SpaghettiPCI[]>([]);
     const [total, setTotal] = useState(0);
     const itemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
     useEffect(() => {
         fetch('/api/spaghetti-plates')
             .then(response => response.json())
-            .then(data => setSpaghettiPlates(data));
+            .then(data => setFood(data));
     }, [])
 
     useEffect(() => {
@@ -27,6 +27,10 @@ export default function App() {
                 <p className={'font-bold text-2xl'}>Total:</p>
                 <p className={'font-bold text-2xl'}>${(total / 100).toFixed(2)}</p>
             </div>
+            <footer
+                className={'flex absolute left-0 bottom-0 w-screen h-10 gap-4 bg-neutral-700 justify-center items-center'}>
+                <p>Spaghetti House</p>
+            </footer>
         </>)
     }
 
@@ -42,11 +46,11 @@ export default function App() {
             </h1>
             <div className={'flex flex-col flex-wrap sm:flex-row md:flex-row lg:flex-row gap-2 justify-center'}>
                 {
-                    spaghettiPlates.map(plate =>
-                        <article key={plate.id}
+                    food.map(plate =>
+                        <article key={plate.spaghettiId}
                                  className={'flex flex-col relative w-56 h-56 gap-2 p-4 bg-neutral-700 rounded-md cursor-pointer'}
                                  onClick={() => {
-                                     const found = cartItems.find(item => item.id === plate.id);
+                                     const found = cartItems.find(item => item.id === plate.spaghettiId);
 
                                      if (found) {
                                          const updatedCart = cartItems.map(item =>
@@ -56,12 +60,21 @@ export default function App() {
                                          );
                                          setCartItems(updatedCart);
                                      } else {
-                                         setCartItems([...cartItems, {...plate, quantity: 1}]);
+                                         const item = [...cartItems, {
+                                             id: plate.spaghettiId,
+                                             name: plate.spaghettiName,
+                                             description: plate.spaghettiDescription,
+                                             price: plate.spaghettiPrice,
+                                             quantity: 1
+                                         }]
+
+                                         console.log(item);
+                                         setCartItems(item);
                                      }
                                  }}>
-                            <h1 className={'font-bold text-xl'}>{plate.name}</h1>
-                            <p className={'text-neutral-400 italic'}>{plate.description}</p>
-                            <p className={'absolute bottom-2 font-bold'}>${plate.price / 100}</p>
+                            <h1 className={'font-bold text-xl'}>{plate.spaghettiName}</h1>
+                            <p className={'text-neutral-400 italic'}>{plate.spaghettiDescription}</p>
+                            <p className={'absolute bottom-2 font-bold'}>${plate.spaghettiPrice / 100}</p>
                         </article>)
                 }
             </div>
@@ -109,9 +122,5 @@ export default function App() {
         <section className={'flex flex-col gap-4 p-4 h-full justify-between'}>
             {renderTotals()}
         </section>
-        <footer
-            className={'flex absolute bottom-0 w-screen h-10 gap-4 bg-neutral-700 justify-center items-center'}>
-            <p>Spaghetti House</p>
-        </footer>
     </main>
 }

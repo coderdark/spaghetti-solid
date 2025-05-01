@@ -1,11 +1,13 @@
-export interface SpaghettiPlate {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
+export interface Plate {
+    spaghettiId: number;
+    spaghettiName: string;
+    spaghettiDescription: string;
+    spaghettiPrice: number;
+    spaghettiPopularity:number;
+    spaghettiEnabled:number;
 }
 
-export interface SpaghettiPlateCartItem {
+export interface SpaghettiPCI {
     id: number;
     name: string;
     description: string;

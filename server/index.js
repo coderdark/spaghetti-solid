@@ -4,30 +4,45 @@ const app = express();
 
 app.route('/api/spaghetti-plates').get((req, res) => {
     return res.json([
-        {id: 1, name: 'Spaghetti', description: 'Spaghetti in marinara sauce and fresh parmesan cheese', price: 1099},
         {
-            id: 2,
-            name: 'Spaghetti and Meatballs ',
-            description: 'Spaghetti in marinara sauce, fresh parmesan cheese and three A quality beef meatballs',
-            price: 1299
+            spaghettiId: 1,
+            spaghettiName: 'Spaghetti',
+            spaghettiDescription: 'Spaghetti in marinara sauce and fresh parmesan cheese',
+            spaghettiPrice: 1099,
+            spaghettiPopularity: 8,
+            spaghettiEnabled: true
         },
         {
-            id: 3,
-            name: 'Baked Spaghetti',
-            description: 'Spaghetti in marinara sauce, top with mozzarella cheese and baked to perfection',
-            price: 1199
+            spaghettiId: 2,
+            spaghettiName: 'Spaghetti and Meatballs ',
+            spaghettiDescription: 'Spaghetti in marinara sauce, fresh parmesan cheese and three A quality beef meatballs',
+            spaghettiPrice: 1299,
+            spaghettiPopularity: 10,
+            spaghettiEnabled: true
         },
         {
-            id: 4,
-            name: 'Spaghetti a la Carbonara',
-            description: 'Spaghetti in carbonara sauce with fresh parmesan cheese and capers',
-            price: 1599
+            spaghettiId: 3,
+            spaghettiName: 'Baked Spaghetti',
+            spaghettiDescription: 'Spaghetti in marinara sauce, top with mozzarella cheese and baked to perfection',
+            spaghettiPrice: 1199,
+            spaghettiPopularity: 7,
+            spaghettiEnabled: true
         },
         {
-            id: 5,
-            name: 'Zucchini Spaghetti',
-            description: 'Zucchini spaghetti in marinara sauce and fresh parmesan cheese',
-            price: 1099
+            spaghettiId: 4,
+            spaghettiName: 'Spaghetti a la Carbonara',
+            spaghettiDescription: 'Spaghetti in carbonara sauce with fresh parmesan cheese and capers',
+            spaghettiPrice: 1599,
+            spaghettiPopularity: 9,
+            spaghettiEnabled: true
+        },
+        {
+            spaghettiId: 5,
+            spaghettiName: 'Zucchini Spaghetti',
+            spaghettiDescription: 'Zucchini spaghetti in marinara sauce and fresh parmesan cheese',
+            spaghettiPrice: 1099,
+            spaghettiPopularity: 6,
+            spaghettiEnabled: true
         },
     ]);
 });

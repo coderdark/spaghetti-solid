@@ -46,6 +46,7 @@
 + Documentation
 + Self-commenting code
 + Unit test
++ Follow SOLID principles
 
 ## SOLID
 
