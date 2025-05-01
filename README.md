@@ -4,7 +4,7 @@
 
 + Difficult to maintain
 + No clear structure
-+ Highly couple
++ High couple
 + Hard to read
 + Hard to change (even for simple changes)
 + Contains duplication
@@ -55,3 +55,13 @@
 + L - Liskov’s Substitution Principle (LSP)
 + I - Interface Segregation Principle (ISP)
 + D - Dependency Inversion Principle (DIP)
+
+## SRP (Single responsibility Principle)
+
+## Open/CLosed Principle
+
+## LSP (Liskov's Substitution Principle)
+
+## ISP (Interface Segregation Principle)
+
+## DIP (Dependency Inversion Principle)
