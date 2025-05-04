@@ -97,7 +97,7 @@ One reason to change, responsible to only ONE actor (db administrator or account
 
 Example TS:
 ```typescript
-//-Not Following Principle
+//- Not Following Principle
 
 function registerUser(user: User) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)) {
@@ -107,7 +107,7 @@ function registerUser(user: User) {
   emailService.sendWelcomeEmail(user.email);
 }
 
-//-Folling Principle
+//- Folling Principle
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -136,7 +136,7 @@ function registerUser(user: User): void {
 
 Example React:
 ```typescript jsx
-//-Not Following Principle
+//- Not Following Principle
 import React, { useState } from 'react';
 
 function RegisterUser() {
@@ -229,11 +229,11 @@ function RegisterUser() {
 
 ### Open/CLosed Principle
 Software entities should be open for extension but closed for modification.
-You should be able to add new functionality without changing existing code.
+You should be able to add new functionality without changing existing code. Decoupling.
 
 Example TS:
 ```typescript
-//- Not following the principle
+//- Not Following Principle
 
 class Discount {
   getDiscount(type: string): number {
@@ -244,7 +244,7 @@ class Discount {
   }
 }
 
-// -  Following the principle
+// - Following Principle
 interface DiscountStrategy {
   getDiscount(): number;
 }
@@ -273,29 +273,522 @@ console.log(discountContext.getDiscount());
 
 Example React:
 ```typescript jsx
-//- Not following the principle
+//- Not Following Principle
 
-function ActionButton({ userType }: { userType: string }) {
-  if (userType === 'admin') {
-    return <button>Admin Panel</button>;
-  } else if (userType === 'editor') {
-    return <button>Edit Content</button>;
-  } else if (userType === 'viewer') {
-    return <button>View Only</button>;
-  }
-  return null;
+function Button({userType}: { userType: string }) {
+    if (userType === 'associate') {
+        return <button style={{backgroundColor: 'blue'}}>Associate Dashboard</button>;
+    } else if (userType === 'customer') {
+        return <button style={{backgroundColor: 'yellow'}}>Customer Dashboard</button>;
+    }
+    return null;
 }
 
 
-// -  Following the principle
+function App() {
+    const userType = useUserType();
+
+    return <section>
+        <header>
+            App Dash
+        </header>
+        <div>
+            <Button userType={userType}></Button>
+        </div>
+    </section>
+}
+
+
+// - Following Principle
+
+function Button({color, caption = 'Button', onClick}: { color: string, caption: string, onClick?: () => void }) {
+    return <button style={{backgroundColor: color}} onClick={onClick}>
+        {caption}
+    </button>;
+}
+
+function AssociateButton() {
+    return <Button color={'blue'} caption={'Associate Dashboard'} onClick={() => alert('Associate Dashboard')}/>;
+}
+
+function CustomerButton() {
+    return <Button color={'yellow'} caption={'Customer Dashboard'} onClick={() => alert('Customer Dashboard')}/>;
+}
+
+const userTypeButtonMap: Record<string, () => JSX.Element> = {
+    associate: AssociateButton,
+    customer: CustomerButton,
+};
+
+export default function App() {
+    const userType = 'associate';
+    const UserTypeButton = userTypeButtonMap[userType];
+
+    return <section>
+        <header>
+            App Dash
+        </header>
+        <div>
+            <UserTypeButton/>
+        </div>
+    </section>
+}
 
 ```
 
 ### LSP (Liskov's Substitution Principle)
+Objects of a superclass may be replaced with objects of a subclass without breaking the application
+
+Example TS:
+```typescript
+
+//- Not Following Principle
+
+//superclass
+class Bird {
+    fly(): void {
+        console.log("Flying");
+    }
+}
+
+//subclass
+class Sparrow extends Bird {
+    fly(): void {
+        console.log("Sparrow flying");
+    }
+}
+
+//subclass
+class Ostrich extends Bird {
+    fly(): void {
+        throw new Error("Ostriches can't fly!");
+    }
+}
+
+function letTheBirdFly(bird: Bird) {
+    bird.fly();
+}
+
+const sparrow = new Sparrow();
+letTheBirdFly(sparrow);
+
+const ostrich = new Ostrich();
+letTheBirdFly(ostrich); // Runtime Error
+
+
+//- Following Principle
+
+//interface
+interface Bird {}
+
+//inteface
+interface FlyingBird extends Bird {
+  fly(): void;
+}
+
+//class implementing Flyingbird interface
+class Sparrow implements FlyingBird {
+  fly(): void {
+    console.log("Sparrow flying");
+  }
+}
+
+//class implementing Bird interface
+class Ostrich implements Bird {
+  // No fly method
+}
+
+function letFlyingBirdFly(bird: FlyingBird) {
+  bird.fly();
+}
+
+const sparrow = new Sparrow();
+letFlyingBirdFly(sparrow); // 
+
+const ostrich = new Ostrich();
+letFlyingBirdFly(ostrich); // Compile Error
+```
+
+Example React USING COMPOSITION:
+```typescript jsx
+
+//- Not Following Principle
+
+import {ReactNode} from "react";
+
+function List({children}:{children:ReactNode}) {
+  return <ul>
+    {children}
+  </ul>
+}
+
+function ListItem({children}: { children: ReactNode }) {
+  return <li>
+    {children}
+  </li>
+}
+
+//here the SelectedListItem is using a h1 element not a li. h1 elements have different attributes than li elements.
+function SelectedListItem({children}: { children: ReactNode }) {
+  return <h1 style={{backgroundColor:'gray'}}>
+    {children}
+  </h1>
+}
+
+export default function App() {
+  return (
+          <div>
+            <List>
+              <ListItem>Item One</ListItem>
+              <SelectedListItem>Item Two</SelectedListItem>
+              <ListItem>Item Three</ListItem>
+            </List>
+          </div>
+  )
+}
+
+//- Following Principle (Using Composition)
+
+import {ReactNode} from "react";
+
+function List({children}:{children:ReactNode}) {
+  return <ul>
+    {children}
+  </ul>
+}
+
+function ListItem({children}: { children: ReactNode }) {
+  return <li>
+    {children}
+  </li>
+}
+
+function SelectedListItem({children}: { children: ReactNode }) {
+  return <li style={{backgroundColor:'gray'}}>
+    {children}
+  </li>
+}
+
+export default function App() {
+  return (
+          <div>
+            <List>
+              <ListItem>Item One</ListItem>
+              <SelectedListItem>Item Two</SelectedListItem>
+              <ListItem>Item Three</ListItem>
+            </List>
+          </div>
+  )
+}
+
+
+```
 
 ### ISP (Interface Segregation Principle)
+No code should be forced to depend on methods it does not use.
+
+Example TS:
+```typescript
+
+//- Not Following Principle
+interface Printer {
+  print(doc: string): void;
+  scan(doc: string): void;
+}
+
+class MultiFunctionPrinter implements Printer {
+  print(doc: string): void {
+    console.log("Printing document:", doc);
+  }
+
+  scan(doc: string): void {
+    console.log("Scanning document:", doc);
+  }
+}
+
+class FaxPrinter implements Printer {
+  print(doc: string): void {
+    console.log("Fax printing document:", doc);
+  }
+
+  // FaxPrinter shouldn't need to implement scan, but it does due to the large interface
+  scan(doc: string): void {
+    throw new Error("FaxPrinter cannot scan!");
+  }
+}
+
+//- Following Principle
+
+// Segregated Interfaces
+interface Printer {
+  print(doc: string): void;
+}
+
+interface Scanner {
+  scan(doc: string): void;
+}
+
+class MultiFunctionPrinter implements Printer, Scanner {
+  print(doc: string): void {
+    console.log("Printing document:", doc);
+  }
+
+  scan(doc: string): void {
+    console.log("Scanning document:", doc);
+  }
+}
+
+class FaxPrinter implements Printer {
+  print(doc: string): void {
+    console.log("Fax printing document:", doc);
+  }
+}
+
+// FaxPrinter doesn't need to implement `scan` anymore because it's no longer forced
+
+```
+
+Example React:
+```typescript jsx
+
+//- Not Following Principle
+interface User {
+  name: string;
+  email: string;
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  }
+  token: string;
+  type: 'user' | 'admin';
+}
+
+
+function LoggedInUser({user}: { user: User }) {
+  return <div>
+    {
+      user?.type === 'admin' && user?.token ? <h1>Welcome to the <strong>admin</strong> page {user?.name}</h1> :
+              <h1>Welcome to the <strong>user</strong> page {user?.name}</h1>
+    }
+  </div>
+}
+
+export default function App() {
+  const user= {
+    name: 'James',
+    email: 'james@google.com',
+    phone: '567.655.5566',
+    address: {
+      street: '123 Main Street',
+      city: 'Bentonville',
+      state: 'Ar',
+      zip: '72712'
+    },
+    token:'1234567890',
+    type: 'admin' as const,
+  }
+
+  return (<LoggedInUser user={user}/>)
+}
+
+
+//- Following Principle
+interface UserBase {
+  name: string;
+  token: string;
+  type: 'user' | 'admin';
+}
+
+interface User extends UserBase {
+  email: string;
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  }
+}
+
+function LoggedInUser({name, token, type}: UserBase) {
+  return <div>
+    {
+      type === 'admin' && token ? <h1>Welcome to the <strong>admin</strong> page {name}</h1> :
+              <h1>Welcome to the <strong>user</strong> page {name}</h1>
+    }
+  </div>
+}
+
+export default function App() {
+  const user:User = {
+    name: 'James',
+    email: 'james@google.com',
+    phone: '567.655.5566',
+    address: {
+      street: '123 Main Street',
+      city: 'Bentonville',
+      state: 'Ar',
+      zip: '72712'
+    },
+    token: '1234567890',
+    type: 'admin' as const,
+  }
+
+  return (<LoggedInUser name={user.name} token={user.token} type={user.type}/>)
+}
+
+```
 
 ## DIP (Dependency Inversion Principle)
+High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
+Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
+
+Example TS:
+```typescript
+
+//- Not Following Principle
+
+// Low-level module
+class EmailService {
+  sendEmail(message: string) {
+    console.log(`Email sent: ${message}`);
+  }
+}
+
+// High-level module
+class OrderService {
+  private emailService = new EmailService(); // 👈 hard dependency
+
+  placeOrder() {
+    console.log("Order placed.");
+    this.emailService.sendEmail("Your order has been placed!");
+  }
+}
+
+//- Following Principle
+
+// Abstraction
+interface IMessageService {
+  send(message: string): void;
+}
+
+// Low-level module
+class EmailService implements IMessageService {
+  send(message: string): void {
+    console.log(`Email sent: ${message}`);
+  }
+}
+
+class SMSService implements IMessageService {
+  send(message: string): void {
+    console.log(`SMS sent: ${message}`);
+  }
+}
+
+// High-level module
+class OrderService {
+  constructor(private messageService: IMessageService) {} // 👈 depends on abstraction
+
+  placeOrder() {
+    console.log("Order placed.");
+    this.messageService.send("Your order has been placed!");
+  }
+}
+
+// Usage
+const emailService = new EmailService();
+const smsService = new SMSService();
+
+const order1 = new OrderService(emailService);
+order1.placeOrder();
+
+const order2 = new OrderService(smsService);
+order2.placeOrder();
+```
+
+Example React:
+```typescript jsx
+
+//- Not Following Principle
+const SignIn = () => {
+  const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      const formData = new FormData(e.currentTarget);
+      const results = await fetch.post("https://service.api.com/sign-in", formData);
+      const data = await results.json();
+
+      return data;
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  return (
+          <form onSubmit={handleSignIn}>
+            <input name="username" placeholder="Username"/>
+            <input name="password" placeholder="Password"/>
+            <button type={"submit"}>Submit</button>
+          </form>
+  );
+};
+
+//- Following Principle
+
+const UserForm = ({onSubmit}: { onSubmit: () => void }) => {
+  return (
+          <form onSubmit={onSubmit}>
+            <input name="username" placeholder="Username"/>
+            <input name="password" placeholder="Password"/>
+            <button type={"submit"}>Submit</button>
+          </form>
+  );
+};
+
+
+const SignIn = () => {
+  const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      const formData = new FormData(e.currentTarget);
+      const results = await fetch.post("https://service.api.com/sign-in", formData);
+
+      return await results.json();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  return (<UserForm onSubmit={() => console.log('On SignIn')}/>)
+};
+
+
+const SignUp = () => {
+  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      const formData = new FormData(e.currentTarget);
+      const results = await fetch.post("https://service.api.com/sign-up", formData);
+
+      return await results.json();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  return (<UserForm onSubmit={() => console.log('On SignUp')}/>)
+};
+
+export default function App() {
+  const type = 'signin';
+
+  return (
+          type === 'signin' ? <SignIn/> : <SignUp/>
+  )
+}
+
+```
+
 
 #### References
 - SOLID principles, Robert C. Martin in his 2000 paper Design Principles and Design Patterns about software. Michael Feathers coined the SOLID acronym.
