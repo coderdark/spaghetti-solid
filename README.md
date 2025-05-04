@@ -642,7 +642,7 @@ export default function App() {
 
 ```
 
-## DIP (Dependency Inversion Principle)
+### DIP (Dependency Inversion Principle)
 High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
 Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
 
@@ -789,6 +789,7 @@ export default function App() {
 
 ```
 
+## Self Commenting Code
 
 #### References
 - SOLID principles, Robert C. Martin in his 2000 paper Design Principles and Design Patterns about software. Michael Feathers coined the SOLID acronym.
