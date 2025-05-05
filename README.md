@@ -52,9 +52,8 @@ And in the end, all that messy code turns into a pile of technical debt… that 
 
 ## How to fix it?
 
-Fixing spaghetti code starts with taking best practices seriously. That means following coding standards—tools like
-Prettier and ESLint can help automate that. Even something as simple as good variable names makes a huge difference. Aim
-for clean, self-explanatory code that’s modular and covered by unit tests.
+Fixing spaghetti code starts with taking best practices seriously. That means following coding standards, implement unit
+testing, decoupling, and modularization. Aim for clean, self-explanatory code.
 
 Talk to your team. If the design doesn’t make sense, speak up. Ask questions, clarify requirements, and help mentor
 newer developers.
