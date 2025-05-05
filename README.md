@@ -17,9 +17,11 @@ with.
 
 ## How does spaghetti code come to be?
 
-In our workplace, we’ve all faced projects with tight timelines where there’s little room for planning and design. These
-projects often bring in new programmers, sometimes with minimal experience in best practices. With the pressure of
-deadlines, we tend to prioritize speed over quality—resulting in quick fixes and hacks instead of solid solutions.
+In our workplace, we’ve all faced projects with tight timelines where there’s little room for planning, design and
+documentation for onboarding and best practices for the team. These
+projects often may bring in new developers, sometimes with minimal experience in best practices. With the pressure of
+deadlines, we tend to prioritize speed over quality—resulting in quick fixes (band-aids) and hacks instead of solid
+solutions.
 Instead of refactoring, we often just keep adding new features on top of problematic code. Poor communication is, in my
 opinion, a major factor behind chaotic codebases. And let’s not forget those lone wolf programmers who make their own
 rules or ignore the team’s best practices.
